@@ -27,4 +27,4 @@ $ npm run dev
 Se você quiser contribuir para este projeto, sinta-se à vontade para enviar um pull request.
 
 ### Licença
-Este projeto está licenciado sob a licença MIT.
+Este projeto está licenciado sob a licença GPL 3.0.
