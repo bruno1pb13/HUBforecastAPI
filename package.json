@@ -16,9 +16,11 @@
   "author": "Bruno Santos",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "prisma": "^4.11.0"
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.18.2"
   }
 }
