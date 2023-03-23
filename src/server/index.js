@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const port = process.env.EXPRESS_PORT || 3000
 
+app.use(express.json())
+
+
 let server = {
     info: {
         status: 'closed',
@@ -11,12 +14,8 @@ let server = {
     start: ()=> start(),
 }
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-
 function start(){
+
 
     require('./router')(app)
 
