@@ -1,6 +1,3 @@
 node_modules
 dist/
 .env
-
-log/error.txt
-log/access.txt
