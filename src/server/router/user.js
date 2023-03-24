@@ -3,7 +3,7 @@ const router = express.Router();
 const DEBUG = require('../middlewares/log')
 const USER = require('../controllers/users')
 
-router.put('/', async (req,res)=>{
+router.post('/', async (req,res)=>{
     try{
         let user = await USER.createNewUser(req.body)
         
