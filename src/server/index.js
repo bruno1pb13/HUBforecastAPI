@@ -4,7 +4,10 @@ const port = process.env.PORT || 3000
 const cors = require('cors')
 const fs = require("fs");
 const https = require("https");
+const cookieParser = require("cookie-parser");
+
 app.use(express.json())
+app.use(cookieParser());
 
 app.use(cors({
     origin: process.env.ALLOW_ORIGIN || '*',

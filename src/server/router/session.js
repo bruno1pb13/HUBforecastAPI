@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
 
         if(!login) return res.sendStatus(401)
 
-        token = await SESSION.newSession(email)
+        token = await SESSION.newSession(login)
         
         res.cookie("token", token, {
             maxAge: Math.floor(Date.now() / 1000) + (60 * 60),
