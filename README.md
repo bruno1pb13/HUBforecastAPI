@@ -12,9 +12,14 @@ Clone o repositório:
 $ git clone https://github.com/bruno1pb13/HUBforecastAPI.git
 ```
 Instale as dependências: 
+
 ```bash
 $ npm install
 ```
+
+Gere um certificado com mkcert e salve os na raiz do repositorio
+
+[Tutorial](https://www.sheshbabu.com/posts/running-express-over-https-in-localhost/)
 
 Inicie o servidor: 
 

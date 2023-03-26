@@ -111,6 +111,23 @@ async function activeUser(data) {
     }
 }
 
+async function login(email, password){
+    try{
+
+        let login = await prisma.user.findFirst({
+            where: {
+                email: email,
+            }
+        })
+
+        let pass = await bcrypt.compare(password, login.password)
+        return pass
+
+    }catch(err){
+        throw err
+    }
+}
+
 async function banUser(email){
     try{
         const user = await prisma.user.update({
@@ -223,4 +240,4 @@ async function cryptPassword(password) {
     return hash;
 }
 
-module.exports = { createNewUser, activeUser, banUser, unbanUser, generateRecoveryPasswordToken, recoveryPassword }
+module.exports = { createNewUser, activeUser, banUser, unbanUser, generateRecoveryPasswordToken, recoveryPassword, login }
