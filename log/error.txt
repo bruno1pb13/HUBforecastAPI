@@ -1,3 +1,93 @@
 ----------------------------------------
 
+ ----------------------------------------
+26/03/2023, 20:01:54
+[error] Error: 
+Invalid `prisma.user.findFirst()` invocation in
+C:\Users\bruno\Documents\codeLab\HUBforecastAPI\src\server\controllers\users.js:117:39
+
+  114 async function login(email, password){
+  115     try{
+  116 
+→ 117         let login = await prisma.user.findFirst(
+Can't reach database server at `192.168.100.66`:`5432`
+
+Please make sure your database server is running at `192.168.100.66`:`5432`.
+ ----------------------------------------
+26/03/2023, 20:01:55
+[error] Error: 
+Invalid `prisma.user.findFirst()` invocation in
+C:\Users\bruno\Documents\codeLab\HUBforecastAPI\src\server\controllers\users.js:117:39
+
+  114 async function login(email, password){
+  115     try{
+  116 
+→ 117         let login = await prisma.user.findFirst(
+Can't reach database server at `192.168.100.66`:`5432`
+
+Please make sure your database server is running at `192.168.100.66`:`5432`.
+ ----------------------------------------
+26/03/2023, 23:33:18
+[error] Error: 
+Invalid `prisma.user.findFirst()` invocation in
+C:\Users\bruno\Documents\codeLab\HUBforecastAPI\src\server\controllers\users.js:117:39
+
+  114 async function login(email, password){
+  115     try{
+  116 
+→ 117         let login = await prisma.user.findFirst(
+Database `mydb` does not exist on the database server at `192.168.100.29:5432`.
+ ----------------------------------------
+26/03/2023, 23:33:20
+[error] Error: 
+Invalid `prisma.user.findFirst()` invocation in
+C:\Users\bruno\Documents\codeLab\HUBforecastAPI\src\server\controllers\users.js:117:39
+
+  114 async function login(email, password){
+  115     try{
+  116 
+→ 117         let login = await prisma.user.findFirst(
+Database `mydb` does not exist on the database server at `192.168.100.29:5432`.
+ ----------------------------------------
+26/03/2023, 23:33:52
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:33:55
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:34:02
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:35:13
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:35:13
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:36:58
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:38:54
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:39:23
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:39:56
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:40:05
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:40:39
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:40:48
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:41:35
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+26/03/2023, 23:41:43
+[error] TypeError: Cannot read properties of null (reading 'password')
  

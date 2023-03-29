@@ -114,14 +114,18 @@ async function activeUser(data) {
 async function login(email, password){
     try{
 
+
         let login = await prisma.user.findFirst({
             where: {
                 email: email,
-            }
+            },
+            
         })
 
         let pass = await bcrypt.compare(password, login.password)
-        return pass
+        if(pass){
+            return {...login, password : undefined}
+        }
 
     }catch(err){
         throw err
