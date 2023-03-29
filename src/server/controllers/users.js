@@ -114,6 +114,7 @@ async function activeUser(data) {
 async function login(email, password){
     try{
 
+
         let login = await prisma.user.findFirst({
             where: {
                 email: email,

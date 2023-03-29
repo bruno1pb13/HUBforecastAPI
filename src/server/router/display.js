@@ -29,4 +29,23 @@ router.put('/', checkSession, async (req,res,next)=>{
     }
 })
 
+//update display
+router.post('/', checkSession, async (req,res,next)=>{
+    try{
+
+        let {id, geo} = req.body
+
+        
+        if(!id || !geo) return res.status(400).send('Require fields: id, geo')
+        
+        let response = await display.update(id, geo)
+
+        res.send(response)
+
+    }catch(err){
+        console.log(err)
+        res.status(500).send(String(err))
+    }
+})
+
 module.exports = async (app) => app.use('/display', router)
