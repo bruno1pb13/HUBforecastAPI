@@ -19,7 +19,10 @@ router.post('/', async (req, res) => {
         
         res.cookie("token", token, {
             maxAge: Math.floor(Date.now() / 1000) + (60 * 60),
-            path : '/'
+            path : '/',
+            secure: true,
+            sameSite: 'none',
+
         })
 
         DEBUG('sr-only', [email,password, token])

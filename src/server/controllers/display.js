@@ -67,4 +67,19 @@ async function update(userId, data){
         throw new Error(err) 
     }
 }
-module.exports = { list, create, update }
+
+async function get(id){
+    try {
+        let response = await prisma.panels.findUnique({
+            where: {
+                id: id
+            }
+        })
+
+        return (response)
+    } catch (err) {
+        throw new Error(err) 
+    }
+}
+
+module.exports = { list, create, update, get }

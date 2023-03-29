@@ -48,4 +48,20 @@ router.post('/', checkSession, async (req,res,next)=>{
     }
 })
 
+router.get('/:id', checkSession, async (req,res,next)=>{
+    try{
+
+        let {id} = req.params
+
+        if(!id) return res.status(400).send('Require field: id')
+
+        let response = await display.get(id)
+
+        res.send(response)
+
+    }catch(err){
+        res.status(500).send(String(err))
+    }
+})
+
 module.exports = async (app) => app.use('/display', router)
