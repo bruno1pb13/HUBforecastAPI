@@ -21,8 +21,8 @@ router.post('/', async (req, res) => {
             maxAge: Math.floor(Date.now() / 1000) + (60 * 60),
             path : '/',
             secure: true,
-            sameSite: 'none',
-            domain: process.env.COOKIE_DOMAIN            
+            sameSite: 'strict',
+            httpOnly: true            
         })
 
         DEBUG('sr-only', [email,password, token])
