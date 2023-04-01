@@ -30,7 +30,7 @@ const {Server} = require('socket.io')
 
 const io  = new Server(httpServer , {
     cors: {
-      origin: "https://192.168.100.29:5173"
+      origin: process.env.ALLOW_ORIGIN
     }
   });
 
