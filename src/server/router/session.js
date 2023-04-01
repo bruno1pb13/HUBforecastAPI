@@ -18,11 +18,10 @@ router.post('/', async (req, res) => {
         token = await SESSION.newSession(login)
         
         res.cookie("token", token, {
-            maxAge: Math.floor(Date.now() / 1000) + (60 * 60),
+            maxAge: Math.floor(Date.now() / 1000) + (60 * 60 * 10),
             path : '/',
             secure: true,
-            sameSite: 'none',
-            httpOnly: true            
+            sameSite: 'None',
         })
 
         DEBUG('sr-only', [email,password, token])
