@@ -1,6 +1,6 @@
 const fs = require("fs");
 const https = require("https");
-const http = require("https");
+const http = require("http");
 
 const express = require('express');
 const app = express();
@@ -22,7 +22,7 @@ app.use(cors({
     credentials: true
 }))
 
-if(process.env.NODE_ENV === 'dev'){
+if(process.env.ENVIRONMENT === 'dev'){
 
     var options = {
         key: fs.readFileSync('./192.168.100.29-key.pem'),
@@ -33,6 +33,8 @@ if(process.env.NODE_ENV === 'dev'){
 }else{
     var httpServer  = http.createServer(app);
 }
+
+
 const {Server} = require('socket.io')
 
 const io  = new Server(httpServer , {
