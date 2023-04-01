@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
             maxAge: Math.floor(Date.now() / 1000) + (60 * 60),
             path : '/',
             secure: true,
-            sameSite: 'strict',
+            sameSite: 'none',
             httpOnly: true            
         })
 
