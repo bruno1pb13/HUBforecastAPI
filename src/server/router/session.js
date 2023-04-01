@@ -22,7 +22,6 @@ router.post('/', async (req, res) => {
             path : '/',
             secure: true,
             sameSite: 'none',
-            domain: '192.168.100.29'
             
         })
 
