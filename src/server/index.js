@@ -1,5 +1,6 @@
 const fs = require("fs");
 const https = require("https");
+const http = require("https");
 
 const express = require('express');
 const app = express();
@@ -30,7 +31,7 @@ if(process.env.NODE_ENV === 'dev'){
     
     var httpServer  = https.createServer(options, app);
 }else{
-    var httpServer  = https.createServer(app);
+    var httpServer  = http.createServer(app);
 }
 const {Server} = require('socket.io')
 
