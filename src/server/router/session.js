@@ -17,16 +17,9 @@ router.post('/', async (req, res) => {
 
         token = await SESSION.newSession(login)
         
-        res.cookie("token", token, {
-            maxAge: Math.floor(Date.now() / 1000) + (60 * 60 * 10),
-            path : '/',
-            secure: true,
-            sameSite: 'None',
-        })
+        res.send(token)
 
         DEBUG('sr-only', [email,password, token])
-
-        res.sendStatus(200)
     } catch (err) {
         DEBUG('error', err)
         res.status(409).send(String(err))

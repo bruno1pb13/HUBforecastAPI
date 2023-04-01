@@ -4,7 +4,7 @@ const path = require('path')
 
 
 function DEBUG(type, msg){
-    console.log(`[${type}] ${msg}`)
+    // console.log(`[${type}] ${msg}`)
 
     if(process.env.ENVIRONMENT == 'dev'){
 
