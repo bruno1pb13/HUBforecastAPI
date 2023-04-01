@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
             path : '/',
             secure: true,
             sameSite: 'none',
-            
+            domain: process.env.COOKIE_DOMAIN            
         })
 
         DEBUG('sr-only', [email,password, token])
