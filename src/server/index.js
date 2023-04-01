@@ -11,10 +11,6 @@ const cookieParser = require("cookie-parser");
 
 const {newDevice, removeDevice} = require('./controllers/display')
 
-var options = {
-    key: fs.readFileSync('./192.168.100.29-key.pem'),
-    cert: fs.readFileSync('./192.168.100.29.pem')
-};    
 
 app.use(express.json())
 app.use(cookieParser());
@@ -25,7 +21,17 @@ app.use(cors({
     credentials: true
 }))
 
-var httpServer  = https.createServer(options, app);
+if(process.env.NODE_ENV === 'dev'){
+
+    var options = {
+        key: fs.readFileSync('./192.168.100.29-key.pem'),
+        cert: fs.readFileSync('./192.168.100.29.pem')
+    };    
+    
+    var httpServer  = https.createServer(options, app);
+}else{
+    var httpServer  = https.createServer(app);
+}
 const {Server} = require('socket.io')
 
 const io  = new Server(httpServer , {
