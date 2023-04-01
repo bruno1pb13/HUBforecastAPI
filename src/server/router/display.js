@@ -3,6 +3,8 @@ const router = express.Router();
 const display = require('../controllers/display')
 const {checkSession} = require('../middlewares/checkSession')
 
+let socket = ''
+
 //list display
 router.get('/', checkSession, async (req,res,next)=>{
     try{
@@ -40,6 +42,8 @@ router.post('/', checkSession, async (req,res,next)=>{
         
         let response = await display.update(id, geo)
 
+        socket.to(id).emit('updateWeather', geo)
+
         res.send(response)
 
     }catch(err){
@@ -48,4 +52,26 @@ router.post('/', checkSession, async (req,res,next)=>{
     }
 })
 
-module.exports = async (app) => app.use('/display', router)
+router.get('/:id', async (req,res,next)=>{
+    try{
+
+        let {id} = req.params
+        if(!id) return res.status(400).send('Require field: id')
+
+        includeConnectedDevices = req.query.include.includes("connectedDevices")
+        
+        let response = await display.get(id, {
+            includeConnectedDevices: includeConnectedDevices
+        })
+
+        res.send(response)
+    }catch(err){
+        console.log(err)
+        res.status(500).send(String(err))
+    }
+})
+
+module.exports = async (app, io) => {
+    app.use('/display', router)
+    socket = io
+}

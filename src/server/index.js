@@ -1,10 +1,20 @@
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000
-const cors = require('cors')
 const fs = require("fs");
 const https = require("https");
+
+const express = require('express');
+const app = express();
+
+const port = process.env.PORT || 3000
+
+const cors = require('cors')
 const cookieParser = require("cookie-parser");
+
+const {newDevice, removeDevice} = require('./controllers/display')
+
+var options = {
+    key: fs.readFileSync('./192.168.100.29-key.pem'),
+    cert: fs.readFileSync('./192.168.100.29.pem')
+};    
 
 app.use(express.json())
 app.use(cookieParser());
@@ -15,12 +25,14 @@ app.use(cors({
     credentials: true
 }))
 
+var httpServer  = https.createServer(options, app);
+const {Server} = require('socket.io')
 
-if (process.env.ENVIRONMENT == 'dev') {
-    const key = fs.readFileSync("192.168.100.29-key.pem", "utf-8");
-    const cert = fs.readFileSync("192.168.100.29.pem", "utf-8");
-}
-
+const io  = new Server(httpServer , {
+    cors: {
+      origin: "https://192.168.100.29:5173"
+    }
+  });
 
 let server = {
     info: {
@@ -35,36 +47,35 @@ let server = {
 function start() {
 
 
-    require('./router')(app)
+    
+    require('./router')(app, io)
 
-    if (process.env.ENVIRONMENT == 'dev') {
-        const key = fs.readFileSync("192.168.100.29-key.pem", "utf-8");
-        const cert = fs.readFileSync("192.168.100.29.pem", "utf-8");
+    
+    io.on('connection', function(socket) {
+        console.log('new connection');
+        socket.emit('message', 'This is a message from the dark side.');
 
-        return https.createServer({ key, cert }, app).listen(port)
-    }
-    app.listen(port)
-        .on('listening', () => {
-            console.log(`Example app listening on port ${port}!`);
-            server.info = {
-                status: 'listening',
-                startTime: new Date()
-            }
+        socket.on('join', function(data) {
 
+            console.log('?')
+
+            newDevice(data, socket.id)
+            .then((response)=>{
+                socket.join(data)
+                socket.emit('message', 'Connection established');
+            })
         })
 
-        .on('close', () => {
-            console.log('Server closed')
-            server.status = 'closed'
+        socket.on('disconnect', function() {
+            console.log('user disconnected');
+            removeDevice(socket.id)
         })
-
-        .on('error', (err) => {
-            server.status = 'error'
-            throw new Error(err)
-        })
+    });
 
 
-
+    httpServer.listen(port, function() {
+        console.log('server up and running at %s port', port);
+    });
 
     return true
 }
