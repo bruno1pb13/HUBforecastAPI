@@ -16,6 +16,24 @@ async function list(user) {
     }
 }
 
+async function checkOwner(id, user){
+    try {
+        let response = await prisma.panels.findUnique({
+            where: {
+                id: id
+            }
+        })
+
+        if(response.userId != user){
+            throw new Error('User is not owner of display')
+        }
+
+        return (response)
+    } catch (err) {
+        throw new Error(err) 
+    }
+}
+
 async function create(userId, displayName){
     try {
 
@@ -119,4 +137,75 @@ async function removeDevice(socketConnectionId){
         console.log('Error removing device')    }
 }
 
-module.exports = { list, create, update, get, newDevice, removeDevice }
+async function registerIndirectLoginToken(token, socketConnectionId){
+    try{
+
+        let device = await prisma.indirectLogin.upsert({
+            where: {
+                socketId : socketConnectionId
+            },
+            update: {
+                token: token
+            },
+            create: {
+                socketId: socketConnectionId,
+                token: token
+            }
+        })
+
+        if(!device){
+            throw new Error('Error creating new device')
+        }
+        return device
+
+    }catch(err){
+        throw new Error(err)
+    }
+}
+
+async function validIndirectLoginToken(token){
+    try{
+
+        let device = await prisma.indirectLogin.findUnique({
+            where: {
+                token : token
+            }
+        })
+
+        if(!device){
+            throw new Error('Error creating new device')
+        }
+        return device
+
+    }catch(err){
+        throw new Error(err)
+    }
+}
+
+async function deleteIndirectLoginToken(id){
+    try{
+
+        let device = await prisma.indirectLogin.delete({
+            where: {
+                id : id
+            }
+        })
+
+        if(!device){
+            throw new Error('Error creating new device')
+        }
+
+        return device
+
+    }catch(err){
+        throw new Error(err)
+    }
+}
+
+
+
+
+module.exports = { 
+    list, create, update, get, 
+    newDevice, removeDevice, checkOwner,
+    registerIndirectLoginToken, validIndirectLoginToken, deleteIndirectLoginToken }
