@@ -63,7 +63,7 @@ router.get('/:id', async (req,res,next)=>{
         let {id} = req.params
         if(!id) return res.status(400).send('Require field: id')
 
-        includeConnectedDevices = req.query.include.includes("connectedDevices")
+        includeConnectedDevices = req.query.include?.includes("connectedDevices")
         
         let response = await display.get(id, {
             includeConnectedDevices: includeConnectedDevices
