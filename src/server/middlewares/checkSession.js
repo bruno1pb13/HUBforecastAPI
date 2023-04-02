@@ -9,6 +9,8 @@ async function checkSession(req, res, next){
         if(!token) return res.sendStatus(404)
         
         
+        console.log(token)
+
         let decoded = jwt.verify(token, process.env.JWT_SECRET)
         
         
