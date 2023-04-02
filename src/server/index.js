@@ -6,6 +6,8 @@ const express = require('express');
 const app = express();
 
 const port = process.env.PORT || 3000
+const path = require('path')
+
 
 const cors = require('cors')
 const cookieParser = require("cookie-parser");
@@ -15,6 +17,9 @@ const {newDevice, removeDevice} = require('./controllers/display')
 
 app.use(express.json())
 app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname, 'public')))
+
 
 app.use(cors({
     origin: process.env.ALLOW_ORIGIN || '*',
@@ -55,10 +60,11 @@ let server = {
 
 function start() {
 
-
-    
     require('./router')(app, io)
 
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'public', 'index.html'));
+      });
     
     io.on('connection', function(socket) {
         console.log('new connection');

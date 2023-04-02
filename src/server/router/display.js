@@ -9,6 +9,7 @@ let socket = ''
 router.get('/', checkSession, async (req,res,next)=>{
     try{
 
+
         let response = await display.list(req.userId)
 
         if(req.payload) response = {response, ...req.payload}
@@ -62,6 +63,8 @@ router.get('/:id', async (req,res,next)=>{
 
         let {id} = req.params
         if(!id) return res.status(400).send('Require field: id')
+
+        if(id == undefined) return res.status(400).send('Require field: id')
 
         includeConnectedDevices = req.query.include?.includes("connectedDevices")
         
