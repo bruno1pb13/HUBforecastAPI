@@ -3,17 +3,19 @@ const https = require("https");
 const http = require("http");
 
 const express = require('express');
-const app = express();
-
-const port = process.env.PORT || 3000
 const path = require('path')
-
-
 const cors = require('cors')
 const cookieParser = require("cookie-parser");
 
-const {newDevice, removeDevice} = require('./controllers/display')
+const port = process.env.PORT || 3000
 
+const {newDevice, removeDevice, registerIndirectLoginToken} = require('./controllers/display')
+const {Server} = require('socket.io')
+const {generateToken} = require('./componentes/indirectLoginToken')
+
+const garbageCollector = require('./controllers/garbageCollector')
+
+const app = express();
 
 app.use(express.json())
 app.use(cookieParser());
@@ -40,8 +42,6 @@ if(process.env.ENVIRONMENT === 'dev'){
 }
 
 
-const {Server} = require('socket.io')
-
 const io  = new Server(httpServer , {
     cors: {
       origin: process.env.ALLOW_ORIGIN
@@ -58,7 +58,7 @@ let server = {
     start: () => start(),
 }
 
-function start() {
+async function start() {
 
     require('./router')(app, io)
 
@@ -81,16 +81,31 @@ function start() {
             })
         })
 
+        socket.on('indirectLoginToken', function(){
+
+            token = generateToken()
+
+            socket.join(token)
+
+            registerIndirectLoginToken(token, socket.id)
+            .then((response)=>{
+                socket.emit('indirectLoginToken', token)
+            })
+
+
+        })
+
         socket.on('disconnect', function() {
             console.log('user disconnected');
             removeDevice(socket.id)
         })
     });
 
-
     httpServer.listen(port, function() {
         console.log('server up and running at %s port', port);
     });
+
+    const removeIndirectLoginTokenAfterOneHour = setInterval(garbageCollector.indirectLoginToken, 1000 * 60 * 60)
 
     return true
 }
