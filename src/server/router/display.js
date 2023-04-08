@@ -98,7 +98,7 @@ router.post('/indirectLogin/:id', checkSession, async (req,res,next)=>{
         let sToken = sessions.newSession({
             id: req.userId,
             displayId: id,
-            type: 'display'
+            type: 'display',
         })
 
         // delete tempToken 
