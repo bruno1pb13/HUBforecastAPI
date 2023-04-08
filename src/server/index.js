@@ -22,11 +22,11 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-
 app.use(cors({
     origin: process.env.ALLOW_ORIGIN || '*',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-    credentials: true
+    credentials: true,
+    exposedHeaders: ['x-access-token']
 }))
 
 if(process.env.ENVIRONMENT === 'dev'){
@@ -44,7 +44,7 @@ if(process.env.ENVIRONMENT === 'dev'){
 
 const io  = new Server(httpServer , {
     cors: {
-      origin: process.env.ALLOW_ORIGIN
+      origin: process.env.ALLOW_ORIGIN,
     }
   });
 

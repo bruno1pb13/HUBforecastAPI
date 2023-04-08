@@ -51,7 +51,6 @@ async function create(userId, displayName){
 
 async function update(userId, data){
 
-    console.log(userId, data)
 
     try {
         let response = await prisma.panels.update({
@@ -65,6 +64,9 @@ async function update(userId, data){
                 }
             }
         })
+
+        console.log(response)
+
 
         return (response)
     } catch (err) {
