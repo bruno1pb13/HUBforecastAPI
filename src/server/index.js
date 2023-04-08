@@ -67,7 +67,6 @@ async function start() {
       });
     
     io.on('connection', function(socket) {
-        console.log('new connection');
         socket.emit('message', 'This is a message from the dark side.');
 
         socket.on('join', function(data) {
@@ -91,7 +90,6 @@ async function start() {
             .then((response)=>{
                 socket.emit('indirectLoginToken', token)
             })
-
 
         })
 
