@@ -9,11 +9,8 @@ let socket = ''
 //list display
 router.get('/', checkSession, async (req,res,next)=>{
     try{
-
-
+        
         let response = await display.list(req.userId)
-
-        if(req.payload) response = {response, ...req.payload}
         res.send(response)
     }catch(err){
         res.status(500).send(String(err))
@@ -29,7 +26,6 @@ router.put('/', checkSession, async (req,res,next)=>{
 
         let response = await display.create(req.userId, name)
 
-        if(req.payload) response = {response, ...req.payload}
         res.send(response)
 
     }catch(err){
@@ -50,7 +46,6 @@ router.post('/', checkSession, async (req,res,next)=>{
 
         socket.to(id).emit('updateWeather', geo)
 
-        if(req.payload) response = {response, ...req.payload}
         res.send(response)
 
     }catch(err){

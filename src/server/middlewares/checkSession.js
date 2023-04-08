@@ -14,10 +14,12 @@ async function checkSession(req, res, next){
         
         req.userId = decoded.data.id
         
-        //generate new token
+        // //generate new token
         let newToken = jwt.sign({data: decoded.data}, process.env.JWT_SECRET, { expiresIn: '1h' })
-        
-        req.payload = {'token': newToken}
+
+        res.setHeader('x-access-token', newToken)
+
+        // res.cookie('token', newToken, { maxAge: 3600000})
 
         next()
     }catch(err){
