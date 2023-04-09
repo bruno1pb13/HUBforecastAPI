@@ -13,7 +13,6 @@ const {newDevice, removeDevice, registerIndirectLoginToken} = require('./control
 const {Server} = require('socket.io')
 const {generateToken} = require('./componentes/indirectLoginToken')
 
-const garbageCollector = require('./controllers/garbageCollector')
 
 const app = express();
 
@@ -78,6 +77,9 @@ async function start() {
 
 
         socket.on('join', function(data) {
+
+            socket.join(data)
+
             newDevice(data, socket.id)
             .then((response)=>{
                 socket.emit('message', 'Connection established');
@@ -107,7 +109,7 @@ async function start() {
         console.log('server up and running at %s port', port);
     });
 
-    const removeIndirectLoginTokenAfterOneHour = setInterval(garbageCollector.indirectLoginToken, 1000 * 60 * 60)
+    
 
     return true
 }
