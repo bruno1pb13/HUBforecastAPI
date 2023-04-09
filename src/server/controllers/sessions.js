@@ -9,4 +9,13 @@ function newSession(data){
       }, process.env.JWT_SECRET);
 }
 
-module.exports = {newSession}
+function validSession(token){
+    try{
+        let decoded = jwt.verify(token, process.env.JWT_SECRET)
+        return !!decoded
+    }catch(err){
+        return false
+    }
+}
+
+module.exports = {newSession, validSession}

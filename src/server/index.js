@@ -17,6 +17,8 @@ const garbageCollector = require('./controllers/garbageCollector')
 
 const app = express();
 
+const {validSession} = require('./controllers/sessions')
+
 app.use(express.json())
 app.use(cookieParser());
 
@@ -69,13 +71,15 @@ async function start() {
     io.on('connection', function(socket) {
         socket.emit('message', 'This is a message from the dark side.');
 
+        socket.on('authenticated', function(data){
+            console.log(data.token)
+            socket.emit('authenticated', validSession(data.token))
+        })
+
+
         socket.on('join', function(data) {
-
-            console.log('?')
-
             newDevice(data, socket.id)
             .then((response)=>{
-                socket.join(data)
                 socket.emit('message', 'Connection established');
             })
         })

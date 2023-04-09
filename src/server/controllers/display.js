@@ -208,6 +208,14 @@ async function deleteIndirectLoginToken(id){
 
 
 module.exports = { 
-    list, create, update, get, 
-    newDevice, removeDevice, checkOwner,
-    registerIndirectLoginToken, validIndirectLoginToken, deleteIndirectLoginToken }
+    list, 
+    create, 
+    update, 
+    get, 
+    newDevice, 
+    removeDevice, 
+    checkOwner,
+    registerIndirectLoginToken, 
+    validIndirectLoginToken, 
+    deleteIndirectLoginToken 
+}
