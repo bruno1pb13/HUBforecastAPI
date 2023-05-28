@@ -29,7 +29,8 @@ router.put('/', checkSession, async (req,res,next)=>{
         res.send(response)
 
     }catch(err){
-        res.status(500).send(String(err))
+        console.log(err)        
+        res.status(500).json({error: err.message})
     }
 })
 

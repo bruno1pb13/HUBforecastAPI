@@ -71,7 +71,6 @@ async function start() {
         socket.emit('message', 'This is a message from the dark side.');
 
         socket.on('authenticated', function(data){
-            console.log(data.token)
             socket.emit('authenticated', validSession(data.token))
         })
 

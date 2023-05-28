@@ -37,15 +37,28 @@ async function checkOwner(id, user){
 async function create(userId, displayName){
     try {
 
-        let response = await prisma.panels.create({
+        //check if this user already has a panel with same name
+        let response = await prisma.panels.findMany({
+            where: {
+                userId: userId,
+                name: displayName
+            }
+        })
+
+        if(response.length > 0){
+            throw new Error(JSON.stringify({message: 'User already has a panel with this name', code: 400}))
+        }
+
+        response = await prisma.panels.create({
             data: {
                 userId: userId,
                 name: displayName
             }
         })
+
         return (response)
     } catch (err) {
-        throw new Error(err)
+        throw (err)
     }
 }
 

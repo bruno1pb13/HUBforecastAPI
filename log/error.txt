@@ -105,4 +105,13 @@ Database `mydb` does not exist on the database server at `192.168.100.29:5432`.
  ----------------------------------------
 09/04/2023, 03:55:05
 [error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+28/05/2023, 00:35:30
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+28/05/2023, 00:40:50
+[error] TypeError: Cannot read properties of null (reading 'password')
+ ----------------------------------------
+28/05/2023, 00:40:51
+[error] TypeError: Cannot read properties of null (reading 'password')
  
