@@ -47,6 +47,7 @@ model panels{
   userId    String
   geo       Json?
   devices   connectedDevices[]
+  news      DisplayNewsFeed[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }
@@ -76,4 +77,13 @@ model RSSnewsknow{
   tags      String[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+}
+
+model DisplayNewsFeed{
+  id       String      @id @default(uuid())
+  panel    panels      @relation(fields: [panelId], references: [id], onDelete: Cascade)
+  panelId  String
+  url      String
+  title    String
+  icon     String?
 }

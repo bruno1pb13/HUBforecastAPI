@@ -1,6 +1,7 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
 const prisma = new PrismaClient()
 const DEBUG = require('../middlewares/log')
+const news = require('../controllers/news')
 
 
 async function list(user) {
@@ -103,7 +104,10 @@ async function get(id, options){
             })
         }
 
-        return (response)
+        // get RSS feed
+        let NEWS = await news.list(id)
+
+        return ({...response, NEWS})
     } catch (err) {
         throw new Error(err) 
     }

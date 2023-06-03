@@ -13,7 +13,6 @@ const {newDevice, removeDevice, registerIndirectLoginToken} = require('./control
 const {Server} = require('socket.io')
 const {generateToken} = require('./componentes/indirectLoginToken')
 
-
 const app = express();
 
 const {validSession} = require('./controllers/sessions')
@@ -27,7 +26,9 @@ app.use(cors({
     origin: process.env.ALLOW_ORIGIN || '*',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
     credentials: true,
-    exposedHeaders: ['x-access-token']
+    exposedHeaders: ['x-access-token'],
+    methods: ['GET', 'POST', 'DELETE']
+
 }))
 
 if(process.env.ENVIRONMENT === 'dev'){
