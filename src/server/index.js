@@ -30,12 +30,18 @@ app.use(cors(
 ))
 
 
+if(process.env.ENVIRONMENT == 'dev'){
+
     var options = {
         key: fs.readFileSync('./key.pem'),
         cert: fs.readFileSync('./cert.pem')
     };
-
+    
     var httpServer = https.createServer(options, app);
+}else{
+    var httpServer = http.createServer(app);
+}
+
 
 
 const io = new Server(httpServer, {
