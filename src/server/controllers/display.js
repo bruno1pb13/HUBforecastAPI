@@ -156,70 +156,6 @@ async function removeDevice(socketConnectionId){
         console.log('Error removing device')    }
 }
 
-async function registerIndirectLoginToken(token, socketConnectionId){
-    try{
-
-        let device = await prisma.indirectLogin.upsert({
-            where: {
-                socketId : socketConnectionId
-            },
-            update: {
-                token: token
-            },
-            create: {
-                socketId: socketConnectionId,
-                token: token
-            }
-        })
-
-        if(!device){
-            throw new Error('Error creating new device')
-        }
-        return device
-
-    }catch(err){
-        throw new Error(err)
-    }
-}
-
-async function validIndirectLoginToken(token){
-    try{
-
-        let device = await prisma.indirectLogin.findUnique({
-            where: {
-                token : token
-            }
-        })
-
-        if(!device){
-            throw new Error('Error creating new device')
-        }
-        return device
-
-    }catch(err){
-        throw new Error(err)
-    }
-}
-
-async function deleteIndirectLoginToken(id){
-    try{
-
-        let device = await prisma.indirectLogin.delete({
-            where: {
-                id : id
-            }
-        })
-
-        if(!device){
-            throw new Error('Error creating new device')
-        }
-
-        return device
-
-    }catch(err){
-        throw new Error(err)
-    }
-}
 
 
 
@@ -230,9 +166,6 @@ module.exports = {
     update, 
     get, 
     newDevice, 
-    removeDevice, 
     checkOwner,
-    registerIndirectLoginToken, 
-    validIndirectLoginToken, 
-    deleteIndirectLoginToken 
+    removeDevice, 
 }
