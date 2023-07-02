@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+
 const display = require('../controllers/display')
-const {checkSession} = require('../middlewares/checkSession')
 const sessions = require('../controllers/sessions')
+
+const {checkSession} = require('../middlewares/checkSession')
 
 let socket = ''
 
@@ -55,6 +57,7 @@ router.post('/', checkSession, async (req,res,next)=>{
     }
 })
 
+//get display
 router.get('/:id', async (req,res,next)=>{
     try{
 
