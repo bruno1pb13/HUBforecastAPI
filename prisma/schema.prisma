@@ -10,18 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id        String      @id @default(uuid())
-  email     String      @unique
-  password  String?     
-  name      String?
-  status    String      @default("pending")
-  isSocialLogin Boolean   @default(false)
-  socialPlatform String?
-  socialId  String?
-  panels    panels[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+model User {
+  id              String      @id @default(uuid())
+  email           String      @unique
+  password        String?
+  name            String?
+  status          String      @default("pending")
+  isSocialLogin   Boolean     @default(false)
+  socialProvider  SocialProvider? // Adiciona um campo de enum para indicar a plataforma de login social
+  socialId        String?
+  panels          panels[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 }
 
 model activationCode{
@@ -86,4 +86,9 @@ model DisplayNewsFeed{
   url      String
   title    String
   icon     String?
+}
+
+enum SocialProvider {
+  GOOGLE
+  GITHUB
 }
