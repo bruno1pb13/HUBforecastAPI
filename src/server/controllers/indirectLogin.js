@@ -31,6 +31,8 @@ function indirectLogin(){
     async function teste(token){
         try{
 
+            token = token.replace(/\W/g, '')
+
             let device = await prisma.indirectLogin.findUnique({
                 where: {
                     token : token
