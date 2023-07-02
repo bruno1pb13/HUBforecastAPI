@@ -9,47 +9,43 @@ const cookieParser = require("cookie-parser");
 
 const port = process.env.PORT || 3000
 
-const {newDevice, removeDevice, registerIndirectLoginToken} = require('./controllers/display')
-const {Server} = require('socket.io')
-const {generateToken} = require('./componentes/indirectLoginToken')
+const { Server } = require('socket.io')
+const socketHandler = require('./socket/socketHandler');
 
 const app = express();
-
-const {validSession} = require('./controllers/sessions')
 
 app.use(express.json())
 app.use(cookieParser());
 
-
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(cors({
-    origin: process.env.ALLOW_ORIGIN || '*',
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-    credentials: true,
-    exposedHeaders: ['x-access-token'],
-    methods: ['GET', 'POST', 'DELETE']
+app.use(cors(
+    {
+        origin: process.env.ALLOW_ORIGIN || '*',
+        optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+        credentials: true,
+        exposedHeaders: ['x-access-token'],
+        methods: ['GET', 'POST', 'DELETE']
+    }
+))
 
-}))
-
-if(process.env.ENVIRONMENT === 'dev'){
+if (process.env.ENVIRONMENT === 'dev') {
 
     var options = {
         key: fs.readFileSync('./192.168.100.29-key.pem'),
         cert: fs.readFileSync('./192.168.100.29.pem')
-    };    
-    
-    var httpServer  = https.createServer(options, app);
-}else{
-    var httpServer  = http.createServer(app);
+    };
+
+    var httpServer = https.createServer(options, app);
+} else {
+    var httpServer = http.createServer(app);
 }
 
-
-const io  = new Server(httpServer , {
+const io = new Server(httpServer, {
     cors: {
-      origin: process.env.ALLOW_ORIGIN,
+        origin: process.env.ALLOW_ORIGIN,
     }
-  });
+});
 
 let server = {
     info: {
@@ -65,52 +61,14 @@ async function start() {
 
     require('./router')(app, io)
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
-      });
-    
-    io.on('connection', function(socket) {
-        socket.emit('message', 'This is a message from the dark side.');
+    app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
-        socket.on('authenticated', function(data){
-            socket.emit('authenticated', validSession(data.token))
-        })
+    socketHandler(io);
 
-
-        socket.on('join', function(data) {
-
-            socket.join(data)
-
-            newDevice(data, socket.id)
-            .then((response)=>{
-                socket.emit('message', 'Connection established');
-            })
-        })
-
-        socket.on('indirectLoginToken', function(){
-
-            token = generateToken()
-
-            socket.join(token)
-
-            registerIndirectLoginToken(token, socket.id)
-            .then((response)=>{
-                socket.emit('indirectLoginToken', token)
-            })
-
-        })
-
-        socket.on('disconnect', function() {
-            console.log('user disconnected');
-            removeDevice(socket.id)
-        })
-    });
-
-    httpServer.listen(port, function() {
+    httpServer.listen(port, function () {
         console.log('server up and running at %s port', port);
     });
 
-    
 
     return true
 }
