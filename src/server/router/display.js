@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const display = require('../controllers/display')
+const indirectLogin = require('../controllers/indirectLogin')
 const sessions = require('../controllers/sessions')
 
 const {checkSession} = require('../middlewares/checkSession')
@@ -95,7 +96,7 @@ router.post('/indirectLogin/:id', checkSession, async (req,res,next)=>{
 
 
         //check if token is valid
-        let indirectDisplay = await display.validIndirectLoginToken(token)
+        let indirectDisplay = await indirectLogin().teste(token)
         if(!indirectDisplay) return res.status(400).send('Invalid token')
 
         //generate a valid token for the display
@@ -106,7 +107,7 @@ router.post('/indirectLogin/:id', checkSession, async (req,res,next)=>{
         })
 
         // delete tempToken 
-        await display.deleteIndirectLoginToken(indirectDisplay.id)
+        await indirectLogin().remove(indirectDisplay.id)
 
         socket.to(indirectDisplay.token).emit('indirectLoginGrant', {
             token: sToken,
